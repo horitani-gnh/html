@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="大気の３つの循環とコリオリの力を、断面から球面へ段階的につなぐ地学基礎の教材。単一HTML・オフライン対応。">
+<meta name="color-scheme" content="light">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; font-src 'none'; base-uri 'none'; form-action 'none'">
+<title>大気の大循環 ─ ３つの循環から３つの風へ</title>
+<style>
+:root{--ink:#18394e;--muted:#557182;--line:#cbd9e2;--paper:#f4f8fb;--orange:#b35200;--green:#008367;--blue:#276ecd;--font:"Yu Gothic",YuGothic,"Meiryo","Hiragino Kaku Gothic ProN","Noto Sans CJK JP",sans-serif;font-family:var(--font);color:var(--ink);background:var(--paper);font-synthesis:none}
+*{box-sizing:border-box}body{margin:0}button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible,canvas:focus-visible{outline:3px solid #147aaf;outline-offset:4px}button:disabled{cursor:default;opacity:.38}button svg{width:20px;height:20px;flex:none;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}button{touch-action:manipulation}button:hover:not(:disabled){filter:brightness(.96)}[hidden]{display:none!important}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.app{height:100vh;height:100dvh;min-height:640px;max-width:1920px;margin:auto;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;padding:20px 28px 14px;gap:15px}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:38px}.brand{display:flex;align-items:center;gap:18px}.subject{font-size:13px;font-weight:700;letter-spacing:.09em;border-right:1px solid #b9ccd8;padding-right:18px}.brand h1{font-size:26px;line-height:1.2;letter-spacing:.06em;margin:0;font-weight:750}.header-actions{display:flex;gap:8px;align-items:center}.quiet{border:1px solid var(--line);background:transparent;border-radius:7px;min-height:38px;padding:6px 12px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:14px;font-weight:600}.quiet.icon{width:40px;padding:8px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding-bottom:4px}.step{position:relative;min-height:54px;border:0;border-bottom:3px solid #d6e1e8;background:transparent;text-align:left;display:flex;align-items:center;gap:10px;padding:6px 12px;color:#66808f;transition:background .2s,border-color .2s,color .2s}.step-num{height:27px;width:27px;border:1px solid #aebfca;display:grid;place-items:center;border-radius:50%;font-size:14px;font-weight:700;flex:none}.step-name{font-size:16px;font-weight:700;letter-spacing:.015em}.step[aria-current="step"]{color:var(--ink);border-color:var(--ink);background:#e6eff5;border-radius:7px 7px 0 0}.step[aria-current="step"] .step-num{background:var(--ink);color:white;border-color:var(--ink)}.step.done{color:#34596f;border-color:#9ab4c6}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:16px;min-height:0}.visual-column{display:grid;grid-template-rows:auto minmax(0,1fr);min-width:0;min-height:0}.caption{display:flex;align-items:baseline;gap:12px;padding:2px 6px 6px;min-height:42px}.caption-index{font-size:13px;font-weight:700;color:#6f8897;font-variant-numeric:tabular-nums;letter-spacing:.04em;white-space:nowrap}.caption p{font-size:20px;font-weight:600;margin:0;line-height:1.55;letter-spacing:.01em}
+.viewport{position:relative;min-height:0;overflow:hidden;border-radius:10px;background:radial-gradient(ellipse at 51% 47%,#fff 0%,#f5f9fc 65%,#eff5f9 100%)}#globe{display:block;width:100%;height:100%;touch-action:none;cursor:grab}#globe.dragging{cursor:grabbing}.view-label{position:absolute;top:13px;left:15px;font-size:13px;font-weight:650;letter-spacing:.035em;color:#567486;pointer-events:none}.scene-note{position:absolute;bottom:13px;left:15px;font-size:12px;color:#587586;pointer-events:none}.drag-hint{position:absolute;bottom:13px;right:15px;display:flex;align-items:center;gap:6px;font-size:12px;color:#587586;pointer-events:none}.drag-hint svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.4}.compass{position:absolute;top:40px;left:16px;width:136px;pointer-events:none;color:#476c83}.compass svg{display:block;width:60px;height:60px;overflow:visible}.compass-title{font-size:12px;margin-top:2px}.compass-direction{font-size:13px;font-weight:650;margin-top:2px}.sweep-label{position:absolute;right:16px;top:15px;font-size:13px;color:#496d83;font-variant-numeric:tabular-nums}.pause-tag{position:absolute;right:16px;bottom:37px;border:1px solid #d0dfe9;background:#ffffffdd;padding:4px 9px;border-radius:4px;font-size:12px;font-weight:600}.error-message{position:absolute;inset:20px;background:#fff;padding:28px;border:1px solid var(--line);z-index:20}
+.rail{padding:10px 5px 2px 20px;border-left:1px solid var(--line);display:flex;flex-direction:column;min-width:0;overflow:auto}.rail-heading{font-size:14px;color:#597586;font-weight:700;margin:0 0 5px;letter-spacing:.05em}.family{--color:var(--orange);padding:15px 0 17px;border-bottom:1px solid #d8e4eb}.family.ferrel{--color:var(--green)}.family.polar{--color:var(--blue)}.family-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.family-key{height:4px;width:28px;border-radius:4px;background:var(--color);position:relative}.family-key:after{content:"";position:absolute;right:-1px;top:-3px;border-left:7px solid var(--color);border-top:5px solid transparent;border-bottom:5px solid transparent}.band{font-size:13px;color:#607c8d;font-variant-numeric:tabular-nums}.family h2{font-size:21px;line-height:1.35;margin:0;font-weight:750;color:var(--color);letter-spacing:.025em}.family-sub{margin:7px 0 0;font-size:14px;line-height:1.55;color:#4e6d80}.flow{margin:9px 0 0;font-size:19px;line-height:1.45;font-weight:650;letter-spacing:.03em}.result{color:var(--color);font-size:22px;font-weight:750;margin-top:5px;line-height:1.5;display:flex;align-items:center;gap:9px}.result .result-arrow{font-size:24px;font-family:Arial,sans-serif;font-weight:400}.wind-detail{font-size:13px;line-height:1.6;color:#4f6f83;margin-top:2px}.legend-note{font-size:12px;color:#587687;line-height:1.65;margin:11px 0 0}.coriolis{margin-top:auto;padding:14px 0 3px}.coriolis-label{font-size:13px;font-weight:700;letter-spacing:.04em;color:#557487;margin-bottom:7px}.hem-rule{display:flex;gap:15px;flex-wrap:wrap;font-size:16px;font-weight:600;line-height:1.65}.hem-rule strong{font-size:20px;color:#1d4a64}.rail-status{margin-top:auto;padding-top:14px;font-size:13px;color:#5b788a;line-height:1.6}.rail-status span{display:block}
+.bottom{display:grid;grid-template-rows:auto auto;gap:12px}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-top:2px}.tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.group{display:flex;gap:2px;background:#e6eef4;padding:3px;border-radius:7px}.group button{min-height:38px;background:transparent;border:0;border-radius:5px;padding:6px 12px;font-size:14px;font-weight:650;color:#526f80;white-space:nowrap}.group button[aria-pressed="true"]{background:white;color:var(--ink);box-shadow:0 1px 4px #28486014}.play{width:112px;min-height:44px;border:1px solid #b4cbd9;border-radius:7px;background:#fff;display:flex;align-items:center;justify-content:center;gap:7px;font-size:15px;font-weight:700;white-space:nowrap}.reset{min-height:44px;font-size:14px;border:0;background:transparent;padding:6px;color:#526f80;display:flex;gap:5px;align-items:center}.navigation{display:flex;align-items:center;gap:8px;flex:none}.navigation button{min-height:46px;border:1px solid #b8cdda;background:white;border-radius:7px;padding:9px 18px;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;white-space:nowrap}.navigation .next{background:var(--ink);border-color:var(--ink);color:white;min-width:108px;justify-content:center}.navigation .next:disabled{background:#dbe5ec;color:#688191;border-color:#dbe5ec;opacity:1}.footer-note{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:#5f7c8e;line-height:1.5}.footer-note kbd{font:inherit;border:1px solid #ccdce6;border-bottom-width:2px;padding:0 4px;border-radius:3px;background:#fff}.footer-note .shortcut{white-space:nowrap}
+dialog{color:var(--ink);font-family:var(--font);width:min(650px,calc(100vw - 32px));max-height:85vh;border:1px solid #b8cedb;border-radius:12px;box-shadow:0 24px 120px #193b5255;padding:24px 28px;background:#fff}dialog::backdrop{background:#18394e66;backdrop-filter:blur(2px)}.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #d7e3eb;padding-bottom:13px;margin-bottom:18px}.dialog-head h2{margin:0;font-size:22px}dialog h3{font-size:16px;margin:20px 0 8px}dialog p,dialog li{font-size:14px;line-height:1.9}dialog ul{padding-left:1.4em}dialog a{color:#126e9e;text-underline-offset:3px}dialog .sources{font-size:13px;color:#4f6e80}dialog .model-note{padding:12px 15px;background:#edf5fa;border-left:3px solid #5a89a5}dialog table{border-collapse:collapse;width:100%;font-size:13px}dialog th,dialog td{text-align:left;padding:7px 9px;border-bottom:1px solid #dbe5eb;line-height:1.6}dialog th{font-weight:700}
+.family{padding:12px 0 14px}
+@media(min-width:1600px){.app{padding:24px 40px 18px;gap:20px}.main{grid-template-columns:minmax(0,1fr) 310px;gap:24px}.rail{padding-left:24px}.family{padding:20px 0 22px}.family h2{font-size:25px}.flow{font-size:22px}.result{font-size:25px}.caption p{font-size:23px}.step-name{font-size:18px}.brand h1{font-size:29px}}
+@media(max-height:820px) and (min-width:981px){.app{padding-top:11px;padding-bottom:9px;gap:8px;min-height:580px}.masthead{min-height:35px}.brand h1{font-size:23px}.steps .step{min-height:43px}.caption{min-height:34px;padding-bottom:2px}.caption p{font-size:17px}.main{gap:12px}.rail{padding-top:5px}.rail-heading{font-size:12px;margin-bottom:2px}.family{padding:6px 0 7px}.family-top{margin-bottom:3px}.family-key{height:3px;width:23px}.band{font-size:11px}.family h2{font-size:17px;line-height:1.25}.family-sub{margin-top:2px;font-size:12px;line-height:1.35}.flow{margin-top:3px;font-size:15px;line-height:1.3}.result{font-size:18px;margin-top:2px;line-height:1.25}.result .result-arrow{font-size:20px}.wind-detail{font-size:11px;line-height:1.35;margin-top:1px}.legend-note{font-size:11px;line-height:1.4;margin-top:5px}.coriolis{padding-top:7px;padding-bottom:0}.coriolis-label{font-size:11px;margin-bottom:2px}.hem-rule{font-size:14px;line-height:1.3;gap:12px}.hem-rule strong{font-size:17px}.rail-status{font-size:11px;line-height:1.4;padding-top:7px}.bottom{gap:5px}.toolbar button{min-height:39px}.navigation button{min-height:41px}.footer-note{font-size:10px;line-height:1.3}}
+@media(max-width:1140px){.app{padding-left:18px;padding-right:18px}.main{grid-template-columns:minmax(0,1fr) 224px;gap:12px}.rail{padding-left:14px}.family h2{font-size:19px}.step{padding-left:8px;gap:7px}.step-name{font-size:14px}.group button{padding:6px 9px;font-size:13px}.tools{gap:7px}.reset{font-size:13px}.play{width:100px}.navigation button{padding:9px 12px}.footer-note{font-size:11px}}
+@media(max-width:980px){.app{height:auto;min-height:100dvh;grid-template-rows:auto auto auto auto;padding:16px;gap:13px}.brand h1{font-size:23px}.subject{display:none}.main{grid-template-columns:minmax(0,1fr)}.visual-column{grid-template-rows:auto 520px}.rail{border-left:0;border-top:1px solid var(--line);padding:10px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:0 18px;overflow:visible}.rail-heading{grid-column:1/-1}.family{padding:9px 0 12px;border-bottom:0}.family h2{font-size:19px}.family-sub{font-size:13px}.flow{font-size:17px}.result{font-size:20px}.legend-note{grid-column:1/-1;margin-top:0}.coriolis,.rail-status{grid-column:1/-1;margin-top:3px;padding:7px 0;display:flex;align-items:center;gap:15px;flex-wrap:wrap}.coriolis-label{margin:0}.rail-status span{display:inline}.toolbar{flex-wrap:wrap}.navigation{margin-left:auto}.footer-note{flex-wrap:wrap}.caption p{font-size:19px}.steps{gap:3px}.step{padding:6px 5px;gap:6px}.step-num{width:24px;height:24px;font-size:13px}.step-name{font-size:13px}}
+@media(max-width:580px){.app{padding:12px;gap:10px}.masthead{gap:6px}.brand h1{font-size:21px;letter-spacing:.03em}.header-actions{gap:5px}.quiet{font-size:12px;padding:6px 8px;min-height:36px}.quiet.icon{width:36px}.steps{gap:3px}.step{flex-direction:column;justify-content:center;gap:6px;text-align:center;min-height:70px;padding:6px 1px}.step-name{font-size:11px;line-height:1.45}.step-num{width:24px;height:24px}.caption{padding:0 1px 5px;gap:8px;min-height:52px}.caption-index{font-size:11px}.caption p{font-size:16px;line-height:1.5}.visual-column{grid-template-rows:auto 460px}.view-label{font-size:11px;top:10px;left:10px}.compass{left:10px;top:30px;width:115px}.compass svg{width:43px;height:43px}.compass-title{font-size:10px}.compass-direction{font-size:11px}.drag-hint{font-size:10px;right:9px;bottom:9px}.scene-note{font-size:10px;left:9px;bottom:9px}.sweep-label{font-size:11px;right:9px;top:10px}.rail{gap:0 10px}.rail-heading{font-size:12px}.family h2{font-size:15px;letter-spacing:0}.band{font-size:11px}.family-key{width:16px}.family-sub{font-size:11px;line-height:1.6}.flow{font-size:13px;letter-spacing:0}.result{font-size:15px;gap:4px}.result .result-arrow{font-size:19px}.wind-detail{font-size:11px}.family-top{margin-bottom:6px}.legend-note{font-size:11px}.coriolis{gap:8px}.coriolis-label{font-size:12px}.hem-rule{font-size:14px;gap:12px}.hem-rule strong{font-size:17px}.rail-status{font-size:11px;gap:4px}.tools{gap:7px;width:100%;justify-content:space-between}.group button{min-height:38px;font-size:12px;padding:6px 8px}.play{font-size:13px;width:92px}.reset{font-size:12px;padding-left:4px}.toolbar{gap:10px}.navigation{width:100%;justify-content:flex-end}.navigation button{min-height:44px;font-size:15px;flex:1;justify-content:center}.footer-note{font-size:10px;gap:6px}.footer-note .shortcut{display:none}.bottom{gap:8px}.pause-tag{font-size:10px}dialog{padding:18px}.dialog-head h2{font-size:19px}}
+@media print{.app{height:auto;min-height:0}.header-actions,.toolbar,.footer-note,.drag-hint{display:none}.visual-column{grid-template-rows:auto 500px}.main{grid-template-columns:minmax(0,1fr) 230px}.rail{display:flex;border-left:1px solid var(--line);border-top:0}.steps{break-after:avoid}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="masthead">
+    <div class="brand"><span class="subject">地学基礎</span><h1>大気の大循環</h1></div>
+    <div class="header-actions">
+      <button class="quiet" id="about-button" type="button">教材について</button>
+      <button class="quiet icon" id="fullscreen" type="button" title="全画面表示" aria-label="全画面表示"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
+    </div>
+  </header>
+  <nav class="steps" aria-label="表示の段階">
+    <button class="step" type="button" data-step="0" aria-current="step"><span class="step-num">1</span><span class="step-name">循環の断面</span></button>
+    <button class="step" type="button" data-step="1"><span class="step-num">2</span><span class="step-name">全球へ展開</span></button>
+    <button class="step" type="button" data-step="2"><span class="step-num">3</span><span class="step-name">地表の流れ</span></button>
+    <button class="step" type="button" data-step="3"><span class="step-num">4</span><span class="step-name">自転の影響</span></button>
+    <button class="step" type="button" data-step="4"><span class="step-num">5</span><span class="step-name">３つの風</span></button>
+  </nav>
+  <main class="main">
+    <section class="visual-column" aria-label="大気の大循環の立体図">
+      <div class="caption" aria-live="polite" aria-atomic="true"><span class="caption-index" id="caption-index">01 / 05</span><p id="caption">南北・鉛直方向に見ると、各半球に３つの循環。</p></div>
+      <div class="viewport" id="viewport">
+        <canvas id="globe" tabindex="0" role="img" aria-label="北極から赤道を経て南極に至る６つの循環の断面。赤道と60度付近で上昇、30度付近と極域で下降。ドラッグで視点を回転できます。">大気の循環の図です。循環と風向の対応は右側の凡例にも表示しています。</canvas>
+        <span class="view-label" id="view-label">南北・鉛直成分の断面</span>
+        <div class="compass" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="15" fill="#deebf3" stroke="#92b0c3"/><path d="M17 31h30M32 17v30" stroke="#a0bbcc" fill="none"/><path d="M47 51A25 25 0 1 0 10 44" stroke="#587e96" stroke-width="2" fill="none"/><path d="M8 36l2 9 9-2" stroke="#587e96" stroke-width="2" fill="none"/><text x="32" y="36" text-anchor="middle" fill="#345c74" font-size="11" font-weight="700">北極</text></svg>
+          <div class="compass-title">北極側から見た自転</div><div class="compass-direction">西から東へ ↺</div>
+        </div>
+        <span class="sweep-label" id="sweep-label" hidden></span>
+        <span class="scene-note">大気の高さは誇張</span>
+        <span class="drag-hint"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 6V3H1M14 12v3h3M3 4a7 7 0 0 1 12 2M15 14A7 7 0 0 1 3 12"/></svg>ドラッグで回転 · スクロールで拡大</span>
+        <span class="pause-tag" id="pause-tag" hidden>一時停止中</span>
+        <div class="error-message" id="error-message" hidden></div>
+      </div>
+    </section>
+    <aside class="rail" aria-label="循環と風の対応">
+      <p class="rail-heading" id="rail-heading">３つの循環</p>
+      <section class="family hadley" aria-label="ハドレー循環">
+        <div class="family-top"><span class="family-key" aria-hidden="true"></span><span class="band">0°–30°</span></div>
+        <h2>ハドレー循環</h2>
+        <p class="family-sub" data-sub="0">赤道で上昇、30°付近で下降</p>
+        <p class="flow" data-flow="0" hidden>30° → 赤道</p>
+        <div class="result" data-result="0" hidden></div>
+        <div class="wind-detail" data-detail="0" hidden></div>
+      </section>
+      <section class="family ferrel" aria-label="フェレル循環">
+        <div class="family-top"><span class="family-key" aria-hidden="true"></span><span class="band">30°–60°</span></div>
+        <h2>フェレル循環</h2>
+        <p class="family-sub" data-sub="1">60°付近で上昇、30°付近で下降</p>
+        <p class="flow" data-flow="1" hidden>30° → 60°</p>
+        <div class="result" data-result="1" hidden></div>
+        <div class="wind-detail" data-detail="1" hidden></div>
+      </section>
+      <section class="family polar" aria-label="極循環">
+        <div class="family-top"><span class="family-key" aria-hidden="true"></span><span class="band">60°–90°</span></div>
+        <h2>極循環</h2>
+        <p class="family-sub" data-sub="2">60°付近で上昇、極域で下降</p>
+        <p class="flow" data-flow="2" hidden>極 → 60°</p>
+        <div class="result" data-result="2" hidden></div>
+        <div class="wind-detail" data-detail="2" hidden></div>
+      </section>
+      <p class="legend-note" id="legend-note">色は３つの循環を区別しています。</p>
+      <div class="coriolis" id="coriolis" hidden><div class="coriolis-label">コリオリの力 · 進行方向に対して</div><div class="hem-rule"><span id="north-rule">北半球は <strong>右</strong></span><span id="south-rule">南半球は <strong>左</strong></span></div></div>
+      <div class="rail-status" id="rail-status"><span>南北・鉛直方向の平均的な流れ</span><span>緯度の境目はおよその位置</span></div>
+    </aside>
+  </main>
+  <footer class="bottom">
+    <div class="toolbar">
+      <div class="tools">
+        <button type="button" class="play" id="play" aria-label="アニメーションを一時停止"><svg id="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke-width="3"/></svg><span id="play-text">一時停止</span></button>
+        <div class="group" role="group" aria-label="視点"><button type="button" id="section-view" aria-pressed="true">断面視点</button><button type="button" id="globe-view" aria-pressed="false">立体視点</button></div>
+        <div class="group" role="group" aria-label="強調する半球"><button type="button" data-hem="both" aria-pressed="true">両半球</button><button type="button" data-hem="north" aria-pressed="false">北半球</button><button type="button" data-hem="south" aria-pressed="false">南半球</button></div>
+        <button type="button" class="reset" id="reset-view" title="今の段階に適した視点に戻す"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 8M4 10V4m0 6h6"/></svg>視点リセット</button>
+      </div>
+      <div class="navigation"><button type="button" id="prev" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg>戻る</button><button type="button" class="next" id="next">次へ<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div>
+    </div>
+    <div class="footer-note"><span>地球とともに動く視点 · 切り替えるのは流れの表示成分</span><span class="shortcut"><kbd>←</kbd> <kbd>→</kbd> 段階移動　<kbd>Space</kbd> 一時停止</span></div>
+  </footer>
+</div>
+<dialog id="about" aria-labelledby="about-title">
+  <div class="dialog-head"><h2 id="about-title">この教材の見方</h2><button type="button" class="quiet" id="close-about">閉じる</button></div>
+  <p class="model-note">地球は常に自転している前提です。段階１〜３では南北・鉛直成分を取り出し、段階４〜５で地表風の東西成分も示します。</p>
+  <h3>操作</h3>
+  <p>「次へ」で１段階ずつ進みます。上部の番号から直接移動もできます。「戻る」で曲がりを逆にたどれます。一時停止中に段階を選ぶと、選んだ段階の完成図に切り替わります。</p>
+  <p>地球をドラッグすると視点が回転します。ホイール、または２本指のピンチで拡大縮小できます。「視点リセット」で、その段階に適した位置に戻ります。</p>
+  <h3>模式化している点</h3>
+  <ul>
+    <li>３セル循環は、時間と経度方向に平均した循環の模式図です。動く矢印は流れの向きを示し、１個の空気粒子が閉じた線を一周する表現ではありません。</li>
+    <li>30°・60°などの境界はおよその位置です。大気の高さ・東西の曲がり・矢印の速さは、向きを読みやすくするために調整しています。風速や粒子軌道の数値シミュレーションではありません。</li>
+    <li>全球への展開は、循環を緯度帯として捉えるための表示です。展開中に断面が動くことは、大気が東向きに流れることを意味しません。</li>
+    <li>コリオリの力は、動いている空気の向きを変える働きです。実際の地表風の向きや強さには、気圧傾度力や摩擦なども関わります。</li>
+    <li>フェレル循環は温帯低気圧などの擾乱によって維持される間接循環です。この画面では地学基礎の３セル模式図に合わせて示しています。</li>
+    <li>極では東西方向を定められないため、極偏東風の流線は極の少し手前から描いています。背面の流線は隠し、大陸の輪郭は概略で示しています。</li>
+  </ul>
+  <h3>地表の流れと風の対応</h3>
+  <table><thead><tr><th>循環</th><th>地表の流れ</th><th>東西成分</th></tr></thead><tbody><tr><td>ハドレー循環</td><td>30° → 赤道</td><td>西向き（貿易風）</td></tr><tr><td>フェレル循環</td><td>30° → 60°</td><td>東向き（偏西風）</td></tr><tr><td>極循環</td><td>極 → 60°</td><td>西向き（極偏東風）</td></tr></tbody></table>
+  <p>「東風」「西風」は吹いてくる側の名称です。東風は東から西へ、西風は西から東へ吹きます。</p>
+  <h3>参照資料</h3>
+  <p class="sources">添付「03_第3章_大気と海洋.pdf」PDF13〜14ページ（誌面44〜45ページ）、NHK高校講座「大気の大循環」（nhk3-4(1).pdf）。風向は <a href="https://oceanservice.noaa.gov/education/tutorial_currents/04currents2.html" target="_blank" rel="noopener noreferrer">NOAA・Surface Ocean Currents</a> も参照しています。</p>
+  <p class="sources">このHTMLは外部のプログラム・画像・フォントを読み込みません。インターネット接続なしで開けます。参照先のリンクのみ、開く際に通信が必要です。</p>
+</dialog>
+<noscript><p style="padding:24px">この教材を表示するには、ブラウザーのJavaScriptを有効にしてください。</p></noscript>
+<script id="geometry">
+'use strict';
+// Schematic geometry only. Coordinates use north-positive latitude and
+// east-positive longitude. No angular-momentum or trajectory simulation.
+const AtmosphereGeometry = (() => {
+  const D = Math.PI/180, TAU = Math.PI*2, R = 1.034, TOP = 1.224, TRIM = 1.8;
+  const SECTION = 135*D;
+  const families = [
+    {id:'hadley', name:'ハドレー循環', wind:'貿易風', color:'#b35200', from:30, to:0, zonal:-1, turn:36, band:[0,30]},
+    {id:'ferrel', name:'フェレル循環', wind:'偏西風', color:'#008367', from:30, to:60, zonal:1, turn:48, band:[30,60]},
+    {id:'polar', name:'極循環', wind:'極偏東風', color:'#276ecd', from:90, to:60, zonal:-1, turn:54, band:[60,90]}
+  ];
+  const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+  const mix=(a,b,t)=>a+(b-a)*t;
+  const ease=t=>t*t*(3-2*t);
+  const bez=(a,b,c,d,t)=>{const u=1-t;return u*u*u*a+3*u*u*t*b+3*u*t*t*c+t*t*t*d;};
+  function spherical(lat,lon,r=R){const cp=Math.cos(lat);return {x:r*cp*Math.sin(lon),y:r*Math.sin(lat),z:r*cp*Math.cos(lon),lat,lon,r};}
+  function surface(f,hem,lon,t,bend){
+    const dir=Math.sign(f.to-f.from);
+    const a=f.from+dir*TRIM, b=f.to-dir*TRIM;
+    const lat=hem*mix(a,b,t)*D;
+    // The SAME sign of the zonal component is used in both hemispheres.
+    const longitude=lon+f.zonal*f.turn*D*t*t*bend;
+    return spherical(lat,longitude,R);
+  }
+  function branch(f,hem,lon,part,t){
+    const dir=Math.sign(f.to-f.from), a=f.from+dir*TRIM,b=f.to-dir*TRIM;
+    let lat,r;
+    if(part==='upper'){lat=mix(b,a,t);r=TOP;}
+    else if(part==='rise'){lat=bez(b,f.to+dir*TRIM/3,f.to+dir*TRIM/3,b,t);r=bez(R,R,TOP,TOP,t);}
+    else {lat=bez(a,f.from-dir*TRIM/3,f.from-dir*TRIM/3,a,t);r=bez(TOP,TOP,R,R,t);}
+    return spherical(hem*lat*D,lon,r);
+  }
+  function project(p,cam){
+    const sn=Math.sin(cam.lon),cs=Math.cos(cam.lon),sp=Math.sin(cam.pitch),cp=Math.cos(cam.pitch);
+    const x=p.x*cs-p.z*sn,z=p.x*sn+p.z*cs;
+    return {x,y:p.y*cp-z*sp,z:p.y*sp+z*cp};
+  }
+  function sample(fn,count=90){return Array.from({length:count+1},(_,i)=>fn(i/count));}
+  function interpolate(points,t){
+    const u=clamp(t)*(points.length-1),i=Math.min(points.length-2,Math.floor(u)),q=u-i;
+    const a=points[i],b=points[i+1];
+    return {x:mix(a.x,b.x,q),y:mix(a.y,b.y,q),z:mix(a.z,b.z,q),dx:b.x-a.x,dy:b.y-a.y,index:i};
+  }
+  function cellOutline(f,hem,lon){
+    const pts=[];
+    for(const part of ['surface','rise','upper','sink']){
+      const branchPoints=sample(t=>part==='surface'?surface(f,hem,lon,t,0):branch(f,hem,lon,part,t),30);
+      pts.push(...branchPoints.slice(0,-1));
+    }
+    return pts;
+  }
+  return Object.freeze({D,TAU,R,TOP,SECTION,TRIM,families,clamp,mix,ease,spherical,surface,branch,project,sample,interpolate,cellOutline});
+})();
+</script>
+<script id="application">+'use strict';
+(() => {
+  const G=AtmosphereGeometry,{D,TAU,SECTION,clamp,mix,ease}=G;
+  const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+  const canvas=$('#globe'),host=$('#viewport'),ctx=canvas.getContext('2d',{alpha:false});
+  if(!ctx){$('#error-message').hidden=false;$('#error-message').textContent='図を表示できませんでした。このHTMLをEdgeまたはChromeで開き直してください。';return;}
+  const base=document.createElement('canvas'),fg=document.createElement('canvas');
+  const bg=base.getContext('2d'),front=fg.getContext('2d');
+  const font='"Yu Gothic",YuGothic,"Meiryo","Hiragino Kaku Gothic ProN","Noto Sans CJK JP",sans-serif';
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const state={step:0,playing:!reduced,hem:'both',view:'section',phase:0,spread:0,focus:0,bend:0,names:0,north:1,south:1};
+  const camera={lon:SECTION-88*D,pitch:0,zoom:1};
+  let sceneTween=null,cameraTween=null,hemTween=null,dirty=true,frameId=0,lastTime=0;
+  let width=1,height=1,dpr=1,cx=1,cy=1,scale=1,mobile=false;
+  let paths=[],labelBoxes=[];
+  const descriptions=[
+    '南北・鉛直方向に見ると、各半球に３つの循環。',
+    '循環の断面を、地球を取り巻く緯度帯へ広げる。',
+    '地表付近の流れを取り出すと、南北の向きが見える。',
+    '自転の影響を含めると、地表の流れに東西成分が加わる。',
+    '循環の地表側の流れと、自転の影響が３つの風につながる。'
+  ];
+  const targetValues=n=>({spread:n>=1?1:0,focus:n>=2?1:0,bend:n>=3?1:0,names:n>=4?1:0});
+  const snapshots=n=>({spread:state.spread,focus:state.focus,bend:state.bend,names:state.names});
+  const groupWindDetails=[['北東貿易風 / 南東貿易風','北東から南西へ','南東から北西へ'],['西から東へ','南西から北東へ','北西から南東へ'],['東から西へ','北東から南西へ','南東から北西へ']];
+  function syncUI(){
+    $$('.step').forEach((el,i)=>{if(i===state.step)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');el.classList.toggle('done',i<state.step);});
+    $('#caption').textContent=descriptions[state.step];$('#caption-index').textContent=String(state.step+1).padStart(2,'0')+' / 05';
+    $('#prev').disabled=state.step===0;$('#next').disabled=state.step===4;
+    $('#play-text').textContent=state.playing?'一時停止':'再生';$('#play').setAttribute('aria-label',state.playing?'アニメーションを一時停止':'アニメーションを再生');
+    $('#play-icon').innerHTML=state.playing?'<path d="M8 5v14M16 5v14" stroke-width="3"/>':'<path d="m8 4 11 8-11 8Z" fill="currentColor" stroke="none"/>';
+    $('#pause-tag').hidden=state.playing;$('#section-view').setAttribute('aria-pressed',String(state.view==='section'));$('#globe-view').setAttribute('aria-pressed',String(state.view==='globe'));
+    $$('[data-hem]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.hem===state.hem)));
+    $('#view-label').textContent=state.step<3?(state.step<2?'南北・鉛直成分の断面':'地表の南北成分'):'地表の南北成分 ＋ 東西成分';
+    $('#rail-heading').textContent=state.step>=4?'循環と３つの風':state.step>=2?'循環の地表側の流れ':'３つの循環';
+    $$('[data-sub]').forEach(el=>el.hidden=state.step>=2);
+    $$('[data-flow]').forEach(el=>el.hidden=state.step<2);
+    G.families.forEach((f,i)=>{
+      const result=$('[data-result="'+i+'"]'),detail=$('[data-detail="'+i+'"]');
+      result.hidden=state.step<3;detail.hidden=state.step<4;
+      result.innerHTML=state.step>=4?'<span>'+f.wind+'</span>':'<span class="result-arrow" aria-hidden="true">'+(f.zonal<0?'←':'→')+'</span><span>'+(f.zonal<0?'西向き成分':'東向き成分')+'</span>';
+      detail.textContent=groupWindDetails[i][state.hem==='both'?0:state.hem==='north'?1:2];
+    });
+    $('#legend-note').textContent=state.step>=2?'同じ色＝同じ循環の地表側':'色は３つの循環を区別しています。';
+    $('#coriolis').hidden=state.step<3;$('#rail-status').hidden=state.step>=3;
+    $('#north-rule').style.opacity=state.hem==='south'?'.35':'1';$('#south-rule').style.opacity=state.hem==='north'?'.35':'1';
+    $('#sweep-label').hidden=state.step!==1;
+    canvas.setAttribute('aria-label',descriptions[state.step]+(state.step>=3?' 貿易風に対応する流れと極域の流れは、両半球とも西向き。偏西風に対応する流れは、両半球とも東向き。':' 赤道と60度付近で上昇、30度付近と極域で下降。')+' ドラッグで視点を回転できます。');
+  }
+  function requestDraw(){dirty=true;if(!frameId)frameId=requestAnimationFrame(frame);}
+  function stepTo(n){
+    n=clamp(n,0,4);if(n===state.step)return;
+    const old=state.step;state.step=n;
+    const target=targetValues(n);
+    if(state.playing&&!reduced)sceneTween={from:snapshots(),to:target,t:0,duration:n===1?2.6:n===3||old===3?2.15:1.6};
+    else{Object.assign(state,target);sceneTween=null;}
+    // Only the first unfold changes the viewpoint automatically. Surface-to-wind
+    // transitions keep the same ground-referenced camera.
+    if(n===0)setView('section');else if(old===0)setView('globe');
+    syncUI();requestDraw();
+  }
+  function preset(view){return {lon:view==='section'?SECTION-88*D:SECTION-16*D,pitch:view==='section'?0:(state.hem==='north'?22:state.hem==='south'?-22:6)*D,zoom:1};}
+  function setView(view){
+    state.view=view;const p=preset(view);p.lon=camera.lon+Math.atan2(Math.sin(p.lon-camera.lon),Math.cos(p.lon-camera.lon));
+    if(state.playing&&!reduced)cameraTween={from:{...camera},to:p,t:0,duration:1.35};else{Object.assign(camera,p);cameraTween=null;}
+    syncUI();requestDraw();
+  }
+  function setHem(hem){
+    state.hem=hem;const to={north:hem==='south'?.1:1,south:hem==='north'?.1:1};
+    if(state.playing&&!reduced)hemTween={from:{north:state.north,south:state.south},to,t:0,duration:.8};else{Object.assign(state,to);hemTween=null;}
+    if(state.view==='globe')setView('globe');
+    syncUI();requestDraw();
+  }
+  function togglePlay(){state.playing=!state.playing;lastTime=0;syncUI();requestDraw();}
+  function applyTween(tween,object,dt){
+    tween.t=Math.min(tween.duration,tween.t+dt);const a=ease(tween.t/tween.duration);
+    for(const k of Object.keys(tween.to))object[k]=mix(tween.from[k],tween.to[k],a);
+    return tween.t>=tween.duration;
+  }
+  function resize(){
+    const r=host.getBoundingClientRect();width=Math.max(1,r.width);height=Math.max(1,r.height);dpr=Math.min(window.devicePixelRatio||1,2);mobile=width<500;
+    [canvas,base,fg].forEach(c=>{c.width=Math.round(width*dpr);c.height=Math.round(height*dpr);});
+    requestDraw();
+  }
+  function project(p){const q=G.project(p,camera);return {x:cx+q.x*scale,y:cy-q.y*scale,z:q.z};}
+  function prepare(points){return points.map(project);}
+  function visible(p){return p.z>=-.000001;}
+  function line(c,points,color,w,alpha=1,dashes=[]){
+    if(alpha<.002||!points.length)return;
+    c.save();c.strokeStyle=color;c.lineWidth=w;c.globalAlpha=alpha;c.lineCap='round';c.lineJoin='round';c.setLineDash(dashes);c.beginPath();
+    let active=false;
+    for(const p of points){if(!visible(p)){active=false;continue;}if(!active){c.moveTo(p.x,p.y);active=true;}else c.lineTo(p.x,p.y);}
+    c.stroke();c.restore();
+  }
+  function polygon(c,points,color,alpha){
+    if(alpha<.002||points.some(p=>!visible(p)))return;
+    c.save();c.globalAlpha=alpha;c.fillStyle=color;c.beginPath();points.forEach((p,i)=>i?c.lineTo(p.x,p.y):c.moveTo(p.x,p.y));c.closePath();c.fill();c.restore();
+  }
+  function circle(c,x,y,r,fill,stroke,w=1){c.beginPath();c.arc(x,y,r,0,TAU);if(fill){c.fillStyle=fill;c.fill();}if(stroke){c.lineWidth=w;c.strokeStyle=stroke;c.stroke();}}
+  function roundRect(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
+  // Sparse, schematic coastlines are only an orientation cue, never a data layer.
+  const coastlines=[
+    [[-168,66],[-158,70],[-145,69],[-135,60],[-125,54],[-125,45],[-120,35],[-111,29],[-110,23],[-102,17],[-92,16],[-86,20],[-82,22],[-81,25],[-82,28],[-81,32],[-75,36],[-66,45],[-61,48],[-67,56],[-77,60],[-85,65],[-97,68],[-108,72],[-120,73],[-133,70],[-146,72],[-168,66]],
+    [[-81,12],[-72,12],[-62,9],[-51,4],[-36,-6],[-35,-12],[-41,-22],[-49,-29],[-55,-34],[-64,-41],[-68,-54],[-73,-49],[-74,-37],[-71,-29],[-76,-17],[-81,-5],[-80,5],[-81,12]],
+    [[-53,60],[-42,61],[-30,69],[-20,77],[-27,82],[-45,83],[-60,77],[-63,69],[-53,60]],
+    [[-17,21],[-10,31],[-6,36],[8,37],[17,32],[25,32],[33,30],[36,21],[44,12],[51,12],[45,2],[40,-10],[35,-21],[27,-34],[18,-35],[11,-23],[12,-6],[8,4],[-3,5],[-10,7],[-17,15],[-17,21]],
+    [[-10,36],[-9,44],[-1,44],[0,49],[7,54],[10,56],[5,59],[11,64],[20,70],[30,71],[40,68],[56,69],[70,73],[90,75],[113,73],[135,70],[153,70],[176,64],[166,60],[160,56],[157,51],[147,47],[142,52],[138,54],[139,45],[132,43],[129,35],[122,31],[121,23],[116,20],[109,18],[107,10],[103,1],[100,6],[99,15],[94,20],[91,22],[87,21],[80,8],[76,9],[72,20],[67,24],[58,24],[50,15],[43,13],[39,22],[36,30],[31,36],[27,40],[23,39],[24,36],[20,40],[16,41],[12,44],[9,43],[4,43],[-1,37],[-10,36]],
+    [[-6,50],[-4,54],[-5,58],[-2,59],[0,55],[1,52],[-6,50]],
+    [[130,31],[132,34],[135,35],[138,37],[140,41],[141,45],[145,44],[144,42],[142,41],[141,37],[137,34],[133,32],[130,31]],
+    [[120,22],[122,25],[121,26],[120,22]],
+    [[114,-22],[114,-28],[120,-34],[132,-33],[138,-36],[147,-39],[153,-28],[146,-17],[141,-12],[136,-13],[130,-12],[124,-15],[114,-22]],
+    [[95,5],[104,-3],[106,-6],[102,-5],[97,0],[95,5]],[[108,7],[117,7],[119,0],[115,-4],[110,-1],[108,7]],[[105,-6],[114,-7],[115,-9],[107,-8],[105,-6]],[[131,-2],[140,-3],[150,-7],[147,-10],[139,-8],[131,-2]],
+    [[47,-13],[50,-16],[48,-24],[44,-25],[44,-18],[47,-13]],[[172,-34],[178,-38],[175,-42],[168,-46],[166,-45],[171,-40],[172,-34]],
+    Array.from({length:73},(_,i)=>[-180+i*5,-72+3*Math.sin(i*.34)+1.5*Math.cos(i*.83)])
+  ];
+  const coasts3D=coastlines.map(shape=>{
+    const out=[];for(let i=0;i<shape.length-1;i++){
+      const a=shape[i],b=shape[i+1],count=Math.max(2,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/2));
+      for(let j=0;j<count;j++)out.push(G.spherical(mix(a[1],b[1],j/count)*D,mix(a[0],b[0],j/count)*D,1.002));
+    }return out;
+  });
+  const grids=[];
+  for(let lon=0;lon<360;lon+=30)grids.push({points:G.sample(t=>G.spherical((-90+180*t)*D,lon*D,1.003),120),equator:false,latitude:false});
+  for(const lat of [-60,-30,0,30,60])grids.push({points:G.sample(t=>G.spherical(lat*D,t*TAU,1.004),240),equator:lat===0,latitude:true});
+  function buildGlobe(){
+    bg.save();
+    const halo=bg.createRadialGradient(cx,cy,scale*.92,cx,cy,scale*1.18);halo.addColorStop(0,'#ccdfec44');halo.addColorStop(.7,'#dcebf233');halo.addColorStop(1,'#e8f2f700');
+    circle(bg,cx,cy,scale*1.18,halo);
+    bg.shadowBlur=20;bg.shadowColor='#476a8014';bg.shadowOffsetY=8;
+    const grad=bg.createRadialGradient(cx-scale*.33,cy-scale*.38,scale*.1,cx,cy,scale);grad.addColorStop(0,'#f4fbff');grad.addColorStop(.58,'#e2f0f8');grad.addColorStop(.85,'#d6e8f3');grad.addColorStop(1,'#c1d9e8');
+    circle(bg,cx,cy,scale,grad,'#a4c1d3',1.25);bg.shadowColor='transparent';
+    coasts3D.forEach(pts=>line(bg,prepare(pts),'#668da5',.9,mix(.36,.52,state.focus)));
+    grids.forEach(g=>line(bg,prepare(g.points),g.equator?'#567f99':'#90aabd',g.equator?1.35:g.latitude?1.1:.75,g.equator?.72:g.latitude?.57:.34));
+    bg.restore();
+    // Only the axis outside the globe is drawn.
+    for(const sign of [-1,1]){
+      const a=project({x:0,y:sign*1.0,z:0}),b=project({x:0,y:sign*1.29,z:0});
+      bg.save();bg.strokeStyle='#7b98ab';bg.lineWidth=1;bg.setLineDash([4,4]);bg.beginPath();bg.moveTo(a.x,a.y);bg.lineTo(b.x,b.y);bg.stroke();bg.restore();
+    }
+  }
+  function buildFlowPaths(){
+    paths=[];
+    const meridians=12;
+    for(let j=0;j<meridians;j++){
+      const lon=SECTION+j/meridians*TAU*state.spread;
+      const expansionAlpha=j===0?1:ease(clamp((state.spread-.025)*2.7));
+      if(expansionAlpha<.002)continue;
+      for(const hem of [1,-1])for(let fi=0;fi<3;fi++){
+        const f=G.families[fi],ha=hem===1?state.north:state.south;
+        const primary=j===0;
+        // Section shading fades out as the surface is extracted.
+        if(state.focus<.99){const pp=prepare(G.cellOutline(f,hem,lon));polygon(bg,pp,f.color,(primary?.08:.018)*expansionAlpha*(1-state.focus)*ha);}
+        for(const part of ['surface','rise','upper','sink']){
+          const surface=part==='surface';
+          // In the curved mode all meridional-only branches vanish exactly.
+          const partAlpha=surface?1:(1-state.focus)+state.focus*.075*(1-state.bend);
+          if(partAlpha<.002)continue;
+          const alpha=expansionAlpha*ha*partAlpha*(primary?1:surface?.66:.36);
+          const points=G.sample(t=>surface?G.surface(f,hem,lon,t,state.bend):G.branch(f,hem,lon,part,t),surface?120:part==='upper'?90:42);
+          const pp=prepare(points);
+          const w=surface?mix(primary?3.6:2.35,primary?4.1:3.0,state.focus):(primary?3.35:1.8);
+          const arrows=surface?(primary?2:1):state.focus>.6?0:primary?1:part==='upper'?1:0;
+          const descriptor={points:pp,color:f.color,width:w,alpha,arrows,part,primary,offset:fi*.13+(hem===1?0:.1)+j*.071};
+          if(alpha>.002){
+            line(bg,pp,'#ffffff',w+2,alpha*.82);
+            line(bg,pp,f.color,w,alpha);
+            paths.push(descriptor);
+          }
+        }
+      }
+    }
+  }
+  function textLabel(c,text,x,y,options={}){
+    const size=options.size||(mobile?13:16),weight=options.weight||600,align=options.align||'left',color=options.color||'#355e77',padX=options.padX===undefined?5:options.padX,padY=3;
+    c.save();c.font=weight+' '+size+'px '+font;c.textBaseline='middle';
+    const tw=c.measureText(text).width,th=size+padY*2;
+    let left=align==='center'?x-tw/2:align==='right'?x-tw:x;
+    left=clamp(left,6,width-tw-6);y=clamp(y,12,height-29);
+    if(options.avoid){for(const box of labelBoxes){if(left<box.x+box.w+3&&left+tw>box.x-3&&y-th/2<box.y+box.h+3&&y+th/2>box.y-3)y=box.y+box.h+th/2+4;}}
+    y=clamp(y,12,height-29);
+    if(options.bg!==false){c.fillStyle=options.bg||'#f8fbfdec';roundRect(c,left-padX,y-th/2,tw+padX*2,th,4);c.fill();}
+    c.fillStyle=color;c.globalAlpha=options.alpha===undefined?1:options.alpha;c.fillText(text,left,y);
+    const box={x:left-padX,y:y-th/2,w:tw+padX*2,h:th};labelBoxes.push(box);c.restore();return box;
+  }
+  function latitudeLabel(lat,withVertical){
+    const hem=lat<0?-1:1,ha=lat===0?Math.max(state.north,state.south):hem===1?state.north:state.south;
+    if(ha<.2)return;
+    const isPole=Math.abs(lat)===90;
+    let p;
+    if(withVertical)p=project(G.spherical(lat*D,SECTION,1.30));
+    else{
+      const rr=mix(1.27,1.10,state.focus);let best=null;
+      for(let i=0;i<=72;i++){const q=project(G.spherical(lat*D,camera.lon+(-90+i*2.5)*D,rr));if(visible(q)&&(!best||q.x>best.x))best=q;}
+      p=best||project(G.spherical(lat*D,camera.lon,rr));
+    }
+    let label=lat===0?'赤道 0°':isPole?(lat>0?'北極 90°':'南極 90°'):Math.abs(lat)+'°'+(lat>0?'N':'S');
+    if(withVertical&&!mobile)label+='  '+([0,60].includes(Math.abs(lat))?'上昇':'下降');
+    const anchorX=isPole?cx+13:p.x+11;
+    textLabel(front,label,anchorX,p.y,{size:mobile?12:15,weight:600,color:'#436880',alpha:ha,avoid:true});
+  }
+  function directionCompass(){
+    // Local east/west is projected from a front-facing equatorial point.
+    // It rotates with the actual camera, never with screen-left assumptions.
+    const center=project(G.spherical(0,camera.lon,1.005));
+    const west=project(G.spherical(0,camera.lon-20*D,1.005)),east=project(G.spherical(0,camera.lon+20*D,1.005));
+    const y=clamp(center.y+28,cy-scale*.10,cy+scale*.42);
+    front.save();front.strokeStyle='#527b94';front.lineWidth=1.3;front.globalAlpha=.9;
+    front.beginPath();front.moveTo(west.x,y);front.lineTo(east.x,y);front.stroke();
+    for(const [x,d] of [[west.x,-1],[east.x,1]]){front.beginPath();front.moveTo(x-d*6,y-3);front.lineTo(x,y);front.lineTo(x-d*6,y+3);front.stroke();}
+    front.restore();
+    textLabel(front,'西',west.x-7,y,{size:mobile?13:16,align:'right',color:'#315f7c'});
+    textLabel(front,'東',east.x+7,y,{size:mobile?13:16,align:'left',color:'#315f7c'});
+  }
+  function windNames(){
+    if(state.names<.015)return;
+    for(const hem of [1,-1])for(let i=0;i<3;i++){
+      const f=G.families[i],lat=hem*(f.band[0]+15),ha=hem===1?state.north:state.south;
+      if(ha<.2)continue;
+      const p=project(G.spherical(lat*D,camera.lon-63*D,1.044));
+      if(!visible(p))continue;
+      const title=i===0?(hem===1?'北東貿易風':'南東貿易風'):f.wind;
+      const labelSize=mobile?13:17;
+      const x=mobile?Math.max(10,cx-scale-12):Math.max(20,cx-scale-32);
+      front.save();front.globalAlpha=state.names*ha;
+      const box=textLabel(front,title,x,p.y,{size:labelSize,align:mobile?'left':'right',color:f.color,weight:750,alpha:state.names*ha});
+      const start=box.x+box.w+5;
+      if(p.x>start+9){front.strokeStyle=f.color;front.lineWidth=1;front.globalAlpha=state.names*ha*.55;front.beginPath();front.moveTo(start,box.y+box.h/2);front.lineTo(p.x-3,p.y);front.stroke();circle(front,p.x,p.y,2.1,f.color);}
+      front.restore();
+    }
+  }
+  function drawStatic(){
+    dirty=false;labelBoxes=[];
+    // A large diagram with enough margins for the polar atmosphere and labels.
+    const baseScale=Math.min(height/(mobile?2.84:2.95),width/(mobile?2.72:3.03));
+    scale=baseScale*camera.zoom;
+    cx=width*(mobile?.45:mix(.43,.52,state.spread));
+    cy=height*(mobile?.52:.52);
+    [bg,front].forEach(c=>{c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,width,height);});
+    const paper=bg.createRadialGradient(width*.5,height*.46,0,width*.5,height*.46,Math.max(width,height)*.65);paper.addColorStop(0,'#ffffff');paper.addColorStop(1,'#eff5f9');bg.fillStyle=paper;bg.fillRect(0,0,width,height);
+    buildGlobe();buildFlowPaths();
+    const sectionLabels=state.spread<.02&&state.view==='section'&&Math.abs(camera.pitch)<3*D&&Math.abs(Math.atan2(Math.sin(camera.lon-(SECTION-88*D)),Math.cos(camera.lon-(SECTION-88*D))))<5*D;
+    for(const lat of [90,60,30,0,-30,-60,-90])latitudeLabel(lat,sectionLabels);
+    // The curved-flow view keeps all straight flow geometry out of the picture.
+    // Grid lines remain thin and neutral and contain no moving arrowheads.
+    if(state.spread>.15)directionCompass();
+    windNames();
+    if(state.step===1)$('#sweep-label').textContent=Math.round(state.spread*360)+'° に展開';
+  }
+  function drawArrow(path,t){
+    const p=G.interpolate(path.points,t),before=path.points[p.index],after=path.points[p.index+1];
+    if(!visible(p)||!visible(before)||!visible(after))return;
+    const norm=Math.hypot(p.dx,p.dy);if(norm<.018)return;
+    const ux=p.dx/norm,uy=p.dy/norm;
+    const visibility=clamp(p.z/.09,.08,1);
+    const endFade=clamp(Math.min(t,1-t)/.055);
+    const a=path.alpha*visibility*endFade;
+    if(a<.01)return;
+    const len=(mobile?8.8:11.5)*(path.primary?1.12:1),half=len*.42;
+    // The TIP is interpolated on the very same polyline that was stroked.
+    // Arrow bodies are directional glyphs, not independently integrated particles.
+    ctx.save();ctx.globalAlpha=a;ctx.fillStyle=path.color;ctx.strokeStyle='#ffffff';ctx.lineWidth=1.2;ctx.lineJoin='round';
+    ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-ux*len-uy*half,p.y-uy*len+ux*half);ctx.lineTo(p.x-ux*len*.72,p.y-uy*len*.72);ctx.lineTo(p.x-ux*len+uy*half,p.y-uy*len-ux*half);ctx.closePath();ctx.stroke();ctx.fill();ctx.restore();
+  }
+  function draw(){
+    if(dirty)drawStatic();
+    ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(base,0,0);ctx.setTransform(dpr,0,0,dpr,0,0);
+    for(const path of paths){for(let i=0;i<path.arrows;i++){
+      const speed=path.part==='surface'?.085:path.part==='upper'?.07:.11;
+      const t=(state.phase*speed+path.offset+(i+.42)/path.arrows)%1;
+      drawArrow(path,t);
+    }}
+    ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(fg,0,0);
+  }
+  function frame(time){
+    frameId=0;const dt=lastTime?Math.min((time-lastTime)/1000,.06):0;lastTime=time;
+    if(state.playing&&!document.hidden){
+      state.phase+=dt;
+      if(sceneTween){if(applyTween(sceneTween,state,dt))sceneTween=null;dirty=true;}
+      if(cameraTween){if(applyTween(cameraTween,camera,dt))cameraTween=null;dirty=true;}
+      if(hemTween){if(applyTween(hemTween,state,dt))hemTween=null;dirty=true;}
+    }
+    draw();
+    if(state.playing&&!document.hidden)frameId=requestAnimationFrame(frame);else lastTime=0;
+  }
+  // Pointer controls keep north upright. Pitch and zoom are deliberately bounded.
+  const pointers=new Map();let lastPinch=0;
+  function userView(){cameraTween=null;state.view='custom';$('#section-view').setAttribute('aria-pressed','false');$('#globe-view').setAttribute('aria-pressed','false');}
+  canvas.addEventListener('pointerdown',ev=>{pointers.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});canvas.setPointerCapture(ev.pointerId);canvas.classList.add('dragging');userView();lastPinch=0;});
+  canvas.addEventListener('pointermove',ev=>{
+    const old=pointers.get(ev.pointerId);if(!old)return;
+    const next={x:ev.clientX,y:ev.clientY};pointers.set(ev.pointerId,next);
+    if(pointers.size===1){camera.lon-=(next.x-old.x)*.006;camera.pitch=clamp(camera.pitch+(next.y-old.y)*.004,-50*D,50*D);}
+    else{const [a,b]=Array.from(pointers.values());const distance=Math.hypot(a.x-b.x,a.y-b.y);if(lastPinch)camera.zoom=clamp(camera.zoom*distance/lastPinch,.76,1.26);lastPinch=distance;}
+    requestDraw();
+  });
+  function pointerEnd(ev){pointers.delete(ev.pointerId);lastPinch=0;if(!pointers.size)canvas.classList.remove('dragging');}
+  canvas.addEventListener('pointerup',pointerEnd);canvas.addEventListener('pointercancel',pointerEnd);canvas.addEventListener('lostpointercapture',pointerEnd);
+  canvas.addEventListener('wheel',ev=>{ev.preventDefault();userView();camera.zoom=clamp(camera.zoom*Math.exp(-ev.deltaY*.001),.76,1.26);requestDraw();},{passive:false});
+  $$('.step').forEach(el=>el.addEventListener('click',()=>stepTo(Number(el.dataset.step))));
+  $('#prev').addEventListener('click',()=>stepTo(state.step-1));$('#next').addEventListener('click',()=>stepTo(state.step+1));$('#play').addEventListener('click',togglePlay);
+  $('#section-view').addEventListener('click',()=>setView('section'));$('#globe-view').addEventListener('click',()=>setView('globe'));
+  $('#reset-view').addEventListener('click',()=>setView(state.step===0?'section':'globe'));
+  $$('[data-hem]').forEach(el=>el.addEventListener('click',()=>setHem(el.dataset.hem)));
+  const about=$('#about');let wasPlayingBeforeDialog=false;
+  $('#about-button').addEventListener('click',()=>{wasPlayingBeforeDialog=state.playing;state.playing=false;syncUI();about.showModal();requestDraw();});
+  $('#close-about').addEventListener('click',()=>about.close());
+  about.addEventListener('click',ev=>{if(ev.target===about){const r=about.getBoundingClientRect();if(ev.clientX<r.left||ev.clientX>r.right||ev.clientY<r.top||ev.clientY>r.bottom)about.close();}});
+  about.addEventListener('close',()=>{state.playing=wasPlayingBeforeDialog;syncUI();requestDraw();});
+  $('#fullscreen').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{ $('#fullscreen').title='F11キーでも全画面表示に切り替えられます'; }});
+  document.addEventListener('fullscreenchange',()=>{const active=!!document.fullscreenElement;$('#fullscreen').setAttribute('aria-label',active?'全画面表示を終了':'全画面表示');$('#fullscreen').title=active?'全画面表示を終了':'全画面表示';requestDraw();});
+  document.addEventListener('keydown',ev=>{
+    if(about.open||ev.ctrlKey||ev.metaKey||ev.altKey)return;
+    const interactive=ev.target instanceof HTMLElement&&/^(INPUT|TEXTAREA|SELECT)$/.test(ev.target.tagName);if(interactive)return;
+    if(ev.key==='ArrowRight'){ev.preventDefault();stepTo(state.step+1);}
+    else if(ev.key==='ArrowLeft'){ev.preventDefault();stepTo(state.step-1);}
+    else if(ev.code==='Space'){ev.preventDefault();togglePlay();}
+    else if(/^[1-5]$/.test(ev.key)){ev.preventDefault();stepTo(Number(ev.key)-1);}
+    else if(ev.key==='Home'){ev.preventDefault();state.hem='both';state.north=1;state.south=1;hemTween=null;stepTo(0);setView('section');}
+  });
+  document.addEventListener('visibilitychange',()=>{lastTime=0;if(!document.hidden)requestDraw();});
+  new ResizeObserver(resize).observe(host);
+  syncUI();resize();
+})();
+</script>
+</body>
+</html>
